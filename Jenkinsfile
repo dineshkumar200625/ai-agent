@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('Build & Push Agent') {
             steps {
-                sh 'docker build -t your-dockerhub-username/sre-agent:latest .'
-                sh 'docker push your-dockerhub-username/sre-agent:latest'
+                sh 'docker build -t dinesh200625/sre-agent:latest .'
+                sh 'docker push dinesh200625/sre-agent:latest'
             }
         }
         stage('Deploy Agent') {
