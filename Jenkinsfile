@@ -2,6 +2,17 @@ pipeline {
 
     agent any
 
+    environment {
+
+        AWS_REGION = "us-east-1"
+
+        AWS_ACCOUNT_ID = "518983156889"
+
+        ECR_REPO = "sre-agent"
+
+        ECR_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}"
+    }
+
     stages {
 
         stage('Build & Push Agent') {
@@ -15,11 +26,21 @@ pipeline {
 
                 cd /home/ubuntu/ai-agent
 
+                git config --global --add safe.directory /home/ubuntu/ai-agent
+
                 git pull
 
-                docker build -t dinesh200625/sre-agent:latest .
+                aws ecr get-login-password --region us-east-1 | \
+                docker login --username AWS --password-stdin \
+                518983156889.dkr.ecr.us-east-1.amazonaws.com
 
-                docker push dinesh200625/sre-agent:latest
+                docker build -t sre-agent:latest .
+
+                docker tag sre-agent:latest \
+                518983156889.dkr.ecr.us-east-1.amazonaws.com/sre-agent:latest
+
+                docker push \
+                518983156889.dkr.ecr.us-east-1.amazonaws.com/sre-agent:latest
 
                 "
 
@@ -37,6 +58,8 @@ pipeline {
                 ubuntu@13.48.104.167 "
 
                 kubectl apply -f /home/ubuntu/ai-agent/agent.yaml
+
+                kubectl rollout restart deployment/sre-agent
 
                 "
 
