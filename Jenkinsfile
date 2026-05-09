@@ -1,17 +1,46 @@
 pipeline {
+
     agent any
+
     stages {
+
         stage('Build & Push Agent') {
-    steps {
-        
-        sh "/usr/bin/docker build -t dinesh200625/sre-agent:latest ."
-        sh "echo $DOCKER_CREDS_PSW | /usr/bin/docker login -u $DOCKER_CREDS_USR --password-stdin"
-        sh "/usr/bin/docker push dinesh200625/sre-agent:latest"
-    }
-}
-        stage('Deploy Agent') {
+
             steps {
-                sh '/var/jenkins_home/bin/kubectl apply -f deployment.yaml'
+
+                sh '''
+
+                ssh -o StrictHostKeyChecking=no \
+                ubuntu@13.48.104.167 "
+
+                cd /home/ubuntu/ai-agent
+
+                git pull
+
+                docker build -t dinesh200625/sre-agent:latest .
+
+                docker push dinesh200625/sre-agent:latest
+
+                "
+
+                '''
+            }
+        }
+
+        stage('Deploy Agent') {
+
+            steps {
+
+                sh '''
+
+                ssh -o StrictHostKeyChecking=no \
+                ubuntu@13.48.104.167 "
+
+                kubectl apply -f /home/ubuntu/ai-agent/agent.yaml
+
+                "
+
+                '''
             }
         }
     }
