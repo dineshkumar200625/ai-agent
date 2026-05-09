@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: agent
-        image: your-dockerhub-username/sre-agent:latest
+        image: dinesh200625/sre-agent:latest
 
         env:
         - name: JENKINS_USER
