@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: agent
-        image: dinesh200625/sre-agent:latest
+        image: 518983156889.dkr.ecr.us-east-1.amazonaws.com/sre-agent:latest
 
         env:
         - name: JENKINS_USER
