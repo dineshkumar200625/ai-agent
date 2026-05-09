@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build & Push Agent') {
+            steps {
+                sh 'docker build -t your-dockerhub-username/sre-agent:latest .'
+                sh 'docker push your-dockerhub-username/sre-agent:latest'
+            }
+        }
+        stage('Deploy Agent') {
+            steps {
+                sh '/var/jenkins_home/bin/kubectl apply -f deployment.yaml'
+            }
+        }
+    }
+}
