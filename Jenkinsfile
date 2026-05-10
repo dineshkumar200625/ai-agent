@@ -22,7 +22,7 @@ pipeline {
                 sh '''
 
                 ssh -o StrictHostKeyChecking=no \
-                ubuntu@13.48.104.167 "
+                ubuntu@16.171.232.223 "
 
                 cd /home/ubuntu/ai-agent
 
@@ -55,7 +55,7 @@ pipeline {
                 sh '''
 
                 ssh -o StrictHostKeyChecking=no \
-                ubuntu@13.48.104.167 "
+                ubuntu@16.171.232.223 "
 
                 kubectl apply -f /home/ubuntu/ai-agent/agent.yaml
 
