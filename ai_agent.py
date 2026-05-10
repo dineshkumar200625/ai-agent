@@ -68,7 +68,7 @@ def ask_ai(metrics: Dict[str, Any]) -> Dict[str, str]:
     prompt = f"""
     Analyze K8s metrics: CPU: {metrics['cpu_percent']}%, Mem: {metrics['memory_percent']}%, Restarts: {metrics['restart_count']}.
     # Change the Rules line in your code:
-    "Rules: CPU > 70% = SCALE | Restarts > 5 = ROLLBACK | Otherwise = OBSERVE."
+    "Rules: CPU > 90% = SCALE | Restarts > 2 = ROLLBACK | Otherwise = OBSERVE."
     Return ONLY JSON: {{"action": "SCALE|ROLLBACK|OBSERVE", "reason": "string"}}
     """
     headers = {"Authorization": f"Bearer {AI_API_KEY}", "Content-Type": "application/json"}
