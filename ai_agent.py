@@ -63,7 +63,11 @@ def send_notification(action: str, reason: str):
         session.post(NOTIFICATION_WEBHOOK, json=payload, timeout=10).raise_for_status()
     except Exception as e:
         logger.error(f"Notification failed: {e}")
-
+# Add this logic before calling ask_ai()
+if metrics['cpu_percent'] < 80 and metrics['memory_percent'] < 80 and metrics['restart_count'] < 1:
+    logger.info("Metrics are stable. Skipping AI analysis to save costs.")
+    time.sleep(60)
+    continue
 def ask_ai(metrics: Dict[str, Any]) -> Dict[str, str]:
     prompt = f"""
     Analyze K8s metrics: CPU: {metrics['cpu_percent']}%, Mem: {metrics['memory_percent']}%, Restarts: {metrics['restart_count']}.
