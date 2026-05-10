@@ -67,7 +67,8 @@ def send_notification(action: str, reason: str):
 def ask_ai(metrics: Dict[str, Any]) -> Dict[str, str]:
     prompt = f"""
     Analyze K8s metrics: CPU: {metrics['cpu_percent']}%, Mem: {metrics['memory_percent']}%, Restarts: {metrics['restart_count']}.
-    Rules: High CPU/Low Restarts = SCALE | High Restarts = ROLLBACK | Stable = OBSERVE.
+    # Change the Rules line in your code:
+    "Rules: CPU > 70% = SCALE | Restarts > 5 = ROLLBACK | Otherwise = OBSERVE."
     Return ONLY JSON: {{"action": "SCALE|ROLLBACK|OBSERVE", "reason": "string"}}
     """
     headers = {"Authorization": f"Bearer {AI_API_KEY}", "Content-Type": "application/json"}
